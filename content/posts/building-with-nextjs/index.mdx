@@ -1,0 +1,72 @@
+---
+title: "Building a Blog with Next.js 15 and MDX"
+date: "2026-07-22"
+description: "A technical walkthrough of how this blog was built — from project setup to deployment on Vercel."
+tags: ["Next.js", "MDX", "Tutorial", "React"]
+---
+
+Building a blog with Next.js and MDX is one of the most rewarding projects you can take on. It gives you full control while keeping things simple.
+
+## Why Next.js for Blogs?
+
+Next.js App Router makes building content-driven sites incredibly natural. Server Components mean your blog pages send zero JavaScript to the client. ISR means your pages load fast while staying fresh.
+
+## Setting Up MDX
+
+MDX lets you write Markdown with embedded React components. Here's how to use a custom callout:
+
+<Callout type="info">
+This is a custom MDX callout component rendered inline in your Markdown content.
+</Callout>
+
+The setup is straightforward:
+
+1. Install `next-mdx-remote`
+2. Configure remark and rehype plugins
+3. Create custom components
+4. Render them in your post template
+
+## Code Examples
+
+Here's a TypeScript function for reading posts:
+
+```typescript
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+export function getPostBySlug(slug: string) {
+  const fullPath = path.join(
+    process.cwd(), "content", "posts", slug, "index.mdx"
+  );
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { data, content } = matter(fileContents);
+  return { slug, ...data, content };
+}
+```
+
+## Syntax Highlighting
+
+Code blocks use Shiki for syntax highlighting. It's faster and more accurate than Prism:
+
+```typescript
+// This is highlighted with Shiki
+function fibonacci(n: number): number {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+```
+
+## Deploying to Vercel
+
+The deployment flow is simple:
+
+1. Push to GitHub
+2. Connect your repo to Vercel
+3. Vercel auto-detects Next.js and deploys
+
+That's it. Every push triggers a new build, and your blog is live in seconds.
+
+## Conclusion
+
+Building your own blog with Next.js and MDX gives you the best of both worlds: the simplicity of Markdown and the power of React. Give it a try.

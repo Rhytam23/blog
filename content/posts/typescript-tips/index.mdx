@@ -1,0 +1,113 @@
+---
+title: "TypeScript Tips I Use Every Day"
+date: "2026-07-20"
+description: "Practical TypeScript patterns and tips that make my code cleaner, safer, and more maintainable."
+tags: ["TypeScript", "Tips", "JavaScript"]
+---
+
+After writing TypeScript daily for years, certain patterns have become second nature. Here are the tips I reach for most often.
+
+## Use `satisfies` for Type-Safe Objects
+
+The `satisfies` keyword lets you validate types without widening:
+
+```typescript
+type Route = {
+  path: string;
+  label: string;
+  icon?: React.ComponentType;
+};
+
+const routes = [
+  { path: "/", label: "Home" },
+  { path: "/blog", label: "Blog" },
+] satisfies Route[];
+// TypeScript checks each item matches Route
+// but doesn't widen the type
+```
+
+## Discriminated Unions Over Optional Fields
+
+Instead of optional booleans, use a `type` field:
+
+```typescript
+// Bad
+type ApiResponse = {
+  data?: unknown;
+  error?: string;
+  loading?: boolean;
+};
+
+// Good
+type ApiResponse =
+  | { status: "loading" }
+  | { status: "success"; data: unknown }
+  | { status: "error"; error: string };
+```
+
+## Use `infer` in Conditional Types
+
+`infer` lets you extract types from complex structures:
+
+```typescript
+type ElementType<T> = T extends (infer U)[] ? U : never;
+
+type Names = ElementType<string[]>; // string
+type Numbers = ElementType<number[]>; // number
+```
+
+## Template Literal Types for String Patterns
+
+TypeScript can validate string patterns at the type level:
+
+```typescript
+type Color = `#${string}`;
+type EventName = `${string}:clicked`;
+
+const color: Color = "#ff0000"; // OK
+const event: EventName = "button:clicked"; // OK
+```
+
+## Const Type Parameters
+
+When a function should infer literal types:
+
+```typescript
+function defineRoutes<const T extends readonly Route[]>(routes: T) {
+  return routes;
+}
+
+const routes = defineRoutes([
+  { path: "/", label: "Home" },
+  { path: "/blog", label: "Blog" },
+]);
+// Type: readonly [
+//   { readonly path: "/"; readonly label: "Home" },
+//   { readonly path: "/blog"; readonly label: "Blog" }
+// ]
+```
+
+## `NoInfer<T>` Utility
+
+`NoInfer` prevents TypeScript from inferring a type parameter from certain positions:
+
+```typescript
+function createFSM<S extends string>(
+  initial: NoInfer<S>,
+  transitions: Record<S, string[]>
+) {
+  return { initial, transitions };
+}
+
+createFSM("idle", {
+  idle: ["loading"],
+  loading: ["success", "error"],
+  success: [],
+  error: [],
+});
+// TypeScript knows "idle" must be a key of the transitions object
+```
+
+## Conclusion
+
+These patterns make TypeScript code more precise and maintainable. The key is choosing the right pattern for each situation rather than applying them everywhere.

@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String   @db.VarChar(300)
+  slug        String   @unique @db.VarChar(300)
+  description String   @db.VarChar(500)
+  content     String?
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  coverImage  String?  @db.VarChar(500)
+  readingTime Int      @default(0)
+  wordCount   Int      @default(0)
+
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  publishedAt DateTime? @map("published_at")
+
+  views View[]
+  likes Like[]
+  tags  PostTag[]
+
+  @@index([slug])
+  @@index([published, publishedAt(sort: Desc)])
+  @@map("posts")
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique @db.VarChar(50)
+  slug  String @unique @db.VarChar(50)
+
+  posts PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId String @map("post_id")
+  tagId  String @map("tag_id")
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+model View {
+  id        String  @id @default(cuid())
+  postId    String  @map("post_id")
+  sessionId String  @map("session_id") @db.VarChar(100)
+  country   String? @db.VarChar(2)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([sessionId])
+  @@map("views")
+}
+
+model Like {
+  id        String @id @default(cuid())
+  postId    String @map("post_id")
+  sessionId String @map("session_id") @db.VarChar(100)
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, sessionId])
+  @@index([postId])
+  @@map("likes")
+}
+
+model Setting {
+  key   String @id @db.VarChar(100)
+  value String @db.VarChar(2000)
+
+  @@map("settings")
+}
