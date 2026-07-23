@@ -17,49 +17,57 @@ interface BlogContentProps {
 
 export function BlogContent({ posts, tags }: BlogContentProps) {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
+    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+      {/* Editorial Header */}
       <Reveal>
-        <div className="mb-14">
+        <div className="mb-20">
           <motion.h1
-            className="text-4xl sm:text-5xl font-bold tracking-tight mb-3"
+            className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            Blog
+            Journal
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-foreground/50"
+            transition={{ delay: 0.1, duration: 0.8 }}
+            className="text-xs uppercase tracking-widest text-foreground/40"
           >
-            {posts.length} post{posts.length !== 1 ? "s" : ""} published.
+            Archive / {posts.length} entries published
           </motion.p>
         </div>
       </Reveal>
 
+      {/* Modern tags filter menu */}
       {tags.length > 0 && (
         <Reveal delay={0.1}>
-          <StaggerChildren className="mb-12 flex flex-wrap gap-2">
-            {tags.map(({ tag, count }) => (
-              <StaggerItem key={tag}>
-                <Link
-                  href={`/blog/tag/${encodeURIComponent(tag)}`}
-                  className="group inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs text-foreground/60 transition-all duration-200 hover:border-foreground/30 hover:text-foreground hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  {tag}
-                  <span className="text-foreground/30 transition-colors group-hover:text-foreground/50">
-                    {count}
-                  </span>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerChildren>
+          <div className="border-b border-border/10 pb-8 mb-16">
+            <p className="text-[10px] uppercase tracking-widest text-foreground/30 mb-4">
+              Filter by topic
+            </p>
+            <StaggerChildren className="flex flex-wrap gap-x-6 gap-y-3">
+              {tags.map(({ tag, count }) => (
+                <StaggerItem key={tag}>
+                  <Link
+                    href={`/blog/tag/${encodeURIComponent(tag)}`}
+                    className="group flex items-baseline gap-1.5 text-xs uppercase tracking-wider text-foreground/45 transition-colors hover:text-foreground"
+                  >
+                    <span>{tag}</span>
+                    <span className="text-[9px] text-foreground/20 group-hover:text-foreground/40">
+                      ({count})
+                    </span>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
         </Reveal>
       )}
 
-      <StaggerChildren className="flex flex-col gap-1">
+      {/* Spacing-based blog entries list */}
+      <StaggerChildren className="flex flex-col">
         {posts.map((post) => (
           <StaggerItem key={post.slug}>
             <PostCard post={post} />
@@ -69,11 +77,8 @@ export function BlogContent({ posts, tags }: BlogContentProps) {
 
       {posts.length === 0 && (
         <Reveal>
-          <p className="text-foreground/50 text-center py-12">
-            No posts yet. Add your first MDX post in{" "}
-            <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
-              content/posts/
-            </code>
+          <p className="text-xs uppercase tracking-widest text-foreground/40 text-center py-20">
+            No entries logged yet.
           </p>
         </Reveal>
       )}

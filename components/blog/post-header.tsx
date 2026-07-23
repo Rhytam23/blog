@@ -14,58 +14,62 @@ const stagger = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
     },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
 export function PostHeader({ post }: PostHeaderProps) {
   return (
     <motion.header
-      className="mb-10"
+      className="mb-16 border-b border-border/10 pb-12"
       variants={stagger}
       initial="hidden"
       animate="visible"
     >
+      {/* Editorial Category / Date header */}
       <motion.div
         variants={item}
-        className="flex flex-wrap items-center gap-2 text-sm text-foreground/40 mb-4"
+        className="flex items-center gap-3 text-xs uppercase tracking-widest text-foreground/40 mb-6 font-medium"
       >
         <time dateTime={post.date}>{formatDate(post.date)}</time>
-        <span className="opacity-40">·</span>
+        <span>·</span>
         <span>{post.readingTime} min read</span>
       </motion.div>
 
+      {/* Massive Typographic Headline */}
       <motion.h1
         variants={item}
-        className="text-4xl sm:text-5xl font-bold tracking-tight mb-5 leading-[1.1]"
+        className="font-heading text-4xl sm:text-6xl font-medium tracking-tighter leading-[1.05] uppercase mb-6"
       >
         {post.title}
       </motion.h1>
 
+      {/* Editorial Standfirst/Subtitle */}
       <motion.p
         variants={item}
-        className="text-lg text-foreground/50 leading-relaxed max-w-2xl"
+        className="text-lg sm:text-xl text-foreground/50 leading-relaxed max-w-2xl font-sans font-light"
       >
         {post.description}
       </motion.p>
 
-      <motion.div variants={item} className="mt-5 flex flex-wrap gap-2">
+      {/* Horizontal Minimal Tags Link List */}
+      <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
         {post.tags.map((tag) => (
-          <motion.div key={tag} whileHover={{ scale: 1.05 }}>
+          <motion.div key={tag} whileHover={{ y: -1 }}>
             <Link
               href={`/blog/tag/${encodeURIComponent(tag)}`}
-              className="block rounded-full bg-muted px-2.5 py-0.5 text-xs text-foreground/50 transition-colors hover:bg-muted-foreground/15 hover:text-foreground/80"
+              className="line-reveal text-[10px] uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1"
             >
               {tag}
             </Link>
@@ -75,4 +79,3 @@ export function PostHeader({ post }: PostHeaderProps) {
     </motion.header>
   );
 }
-

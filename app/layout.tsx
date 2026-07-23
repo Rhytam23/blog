@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Inter } from "next/font/google";
+import { Inter, Instrument_Sans } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -10,16 +10,22 @@ import { CursorGlow } from "@/components/cursor-glow";
 import { WebGLBackgroundWrapper } from "@/components/webgl-background-wrapper";
 import "./globals.css";
 
-const inter = Inter({
+const sans = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-body",
+});
+
+const heading = Instrument_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-heading",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Blog",       // TODO: Replace with your blog name
-    template: "%s | Blog", // TODO: Replace Blog with your blog name
+    default: "Blog",
+    template: "%s | Blog",
   },
   description:
     "A personal blog about software engineering, system design, and the tools I use to build things.",
@@ -28,7 +34,7 @@ export const metadata: Metadata = {
   ),
   openGraph: {
     type: "website",
-    siteName: "Blog", // TODO: Replace with your blog name
+    siteName: "Blog",
     locale: "en_US",
   },
   twitter: {
@@ -46,8 +52,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${sans.variable} ${heading.variable}`}
+    >
       <body className="min-h-screen bg-background font-sans antialiased">
+        <div className="noise-overlay" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

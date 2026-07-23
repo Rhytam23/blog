@@ -11,14 +11,11 @@ interface RelatedPostsProps {
 
 export function RelatedPosts({ posts }: RelatedPostsProps) {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <h2 className="text-lg font-semibold mb-5">Related Posts</h2>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div>
+      <h2 className="text-xs uppercase tracking-widest text-foreground/40 font-medium mb-8">
+        Related Entries
+      </h2>
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post, i) => (
           <motion.div
             key={post.slug}
@@ -27,24 +24,32 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
             viewport={{ once: true }}
             transition={{
               delay: i * 0.08,
-              duration: 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
             }}
           >
             <Link
               href={`/blog/${post.slug}`}
-              className="group block rounded-lg border border-border p-4 transition-all duration-300 hover:border-foreground/20 hover:bg-muted/50 hover:shadow-sm"
+              className="group block space-y-2"
             >
-              <h3 className="text-sm font-medium group-hover:text-foreground/80 transition-colors line-clamp-2">
+              {/* Date Metadata */}
+              <span className="text-[10px] uppercase tracking-widest text-foreground/30 font-medium block">
+                {formatDate(post.date)}
+              </span>
+              
+              {/* Typography Title */}
+              <h3 className="font-heading text-base font-medium leading-tight text-foreground/70 transition-colors duration-300 group-hover:text-foreground line-clamp-2">
                 {post.title}
               </h3>
-              <p className="mt-1.5 text-xs text-foreground/40">
-                {formatDate(post.date)}
-              </p>
+              
+              {/* Micro-interaction line link */}
+              <span className="line-reveal text-[10px] uppercase tracking-widest text-foreground/45 transition-colors group-hover:text-foreground pb-0.5">
+                Read Entry &rarr;
+              </span>
             </Link>
           </motion.div>
         ))}
       </div>
-    </motion.section>
+    </div>
   );
 }

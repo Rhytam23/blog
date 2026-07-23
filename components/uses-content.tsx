@@ -12,81 +12,70 @@ const uses: UseItem[] = [
   {
     category: "Development",
     items: [
-      { name: "VS Code", description: "Primary editor with Vim keybindings" },
-      { name: "Terminal", description: "WezTerm + zsh + starship" },
-      { name: "Git", description: "Version control with conventional commits" },
-      { name: "GitHub", description: "Code hosting and CI/CD" },
+      { name: "VS Code", description: "Minimal setup, Vim bindings" },
+      { name: "WezTerm", description: "GPU-accelerated terminal emulator" },
+      { name: "Git & GitHub", description: "Version control and deployments" },
     ],
   },
   {
-    category: "Languages & Frameworks",
+    category: "Environment",
     items: [
-      { name: "TypeScript", description: "Primary language for everything" },
-      { name: "React", description: "UI library of choice" },
-      { name: "Next.js", description: "Full-stack React framework" },
-      { name: "Tailwind CSS", description: "Utility-first styling" },
-      { name: "PostgreSQL", description: "Relational database" },
-      { name: "Prisma", description: "Type-safe database ORM" },
+      { name: "TypeScript", description: "Strict typing everywhere" },
+      { name: "React / Next.js", description: "Component interfaces & SSR" },
+      { name: "PostgreSQL", description: "Primary relational database" },
+      { name: "Tailwind CSS v4", description: "Minimal styling layouts" },
     ],
   },
   {
-    category: "Design",
+    category: "Hardware",
     items: [
-      { name: "Figma", description: "Design and prototyping" },
-    ],
-  },
-  {
-    category: "Infrastructure",
-    items: [
-      { name: "Vercel", description: "Hosting and deployment" },
-      { name: "GitHub Actions", description: "CI/CD pipelines" },
+      { name: "MacBook Pro", description: "14-inch Apple Silicon M-series" },
+      { name: "Keychron Q2", description: "Custom mechanical, linear switches" },
     ],
   },
 ];
 
 export function UsesContent() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
+    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+      {/* Editorial Header */}
       <Reveal>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-6">
           Uses
         </h1>
       </Reveal>
 
+      {/* Intro details */}
       <Reveal delay={0.05}>
-        <p className="text-lg text-foreground/50 mb-14">
-          A list of software, hardware, and tools I use on a daily basis.
-          Inspired by{" "}
-          <a
-            href="https://uses.tech"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-4 transition-colors hover:text-foreground"
-          >
-            uses.tech
-          </a>
-          .
+        <p className="text-sm font-sans text-foreground/50 leading-relaxed max-w-xl uppercase tracking-wider mb-20">
+          A minimalist catalog of the hardware, systems, and software tools I rely on daily for code, design, and system operations.
         </p>
       </Reveal>
 
-      <StaggerChildren className="space-y-14">
+      {/* Table-like list layout */}
+      <StaggerChildren className="space-y-20">
         {uses.map((section) => (
           <StaggerItem key={section.category}>
-            <h2 className="text-xl font-semibold mb-5">{section.category}</h2>
-            <div className="grid gap-2">
-              {section.items.map((item) => (
-                <motion.div
-                  key={item.name}
-                  className="flex items-baseline justify-between gap-4 rounded-xl border border-border p-4 transition-all duration-200 hover:border-foreground/15 hover:bg-muted/30"
-                  whileHover={{ x: 4 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <span className="font-medium">{item.name}</span>
-                  <span className="text-sm text-foreground/50 text-right">
-                    {item.description}
-                  </span>
-                </motion.div>
-              ))}
+            <div className="border-t border-border/10 pt-8">
+              <h2 className="text-xs uppercase tracking-widest text-foreground/35 font-medium mb-8">
+                {section.category}
+              </h2>
+              
+              <div className="divide-y divide-border/5">
+                {section.items.map((item) => (
+                  <div
+                    key={item.name}
+                    className="flex flex-col sm:flex-row sm:items-baseline justify-between py-5 gap-2 group transition-colors duration-300"
+                  >
+                    <span className="font-medium text-sm text-foreground/80 group-hover:text-foreground">
+                      {item.name}
+                    </span>
+                    <span className="text-xs text-foreground/45 sm:text-right font-sans">
+                      {item.description}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </StaggerItem>
         ))}

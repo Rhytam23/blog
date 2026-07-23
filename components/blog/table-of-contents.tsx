@@ -57,8 +57,8 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <nav className="sticky top-24">
-      <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-3">
-        On this page
+      <p className="text-[10px] uppercase tracking-widest text-foreground/30 font-medium mb-4">
+        Contents
       </p>
       <ul className="flex flex-col gap-1.5">
         {headings.map((heading) => (

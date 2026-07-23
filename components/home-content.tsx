@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import type { PostMeta } from "@/lib/blog";
 import { PostCard } from "@/components/blog/post-card";
 import { Reveal } from "@/components/animations/reveal";
-import { GradientText } from "@/components/animations/gradient-text";
 
 interface HomeContentProps {
   posts: PostMeta[];
@@ -13,101 +12,94 @@ interface HomeContentProps {
 
 export function HomeContent({ posts }: HomeContentProps) {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
-      <section className="mb-20">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
-            Hey, I&apos;m{" "}
-            {/* TODO: Replace with your name if different */}
-            <GradientText animate>Rhytam</GradientText>
-          </h1>
-        </motion.div>
+    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+      {/* Asymmetric Editorial Hero Section */}
+      <section className="mb-32">
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <div>
+            <h1 className="font-heading text-6xl sm:text-8xl font-medium tracking-tighter leading-[0.9] uppercase select-none">
+              <span className="mask-reveal block">
+                <span className="mask-reveal-inner">Rhytam</span>
+              </span>
+              <br />
+              <span className="mask-reveal block">
+                <span className="mask-reveal-inner text-foreground/40">
+                  Journal
+                </span>
+              </span>
+            </h1>
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          <div className="lg:max-w-xs lg:justify-self-end">
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.0,
+                delay: 0.3,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="text-sm font-sans text-foreground/50 leading-relaxed uppercase tracking-wider"
+            >
+              A digital notebook exploring the intersections of software architecture, minimal interaction design, and system performance.
+            </motion.p>
+          </div>
+        </div>
+
+        {/* Minimalist interactive buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: 0.8,
-            delay: 0.15,
-            ease: [0.25, 0.46, 0.45, 0.94],
+            duration: 1.0,
+            delay: 0.45,
+            ease: [0.16, 1, 0.3, 1],
           }}
-          className="text-lg text-foreground/60 leading-relaxed max-w-xl"
-        >
-          I write about software engineering, system design, and the tools I use
-          to build things. Currently focused on TypeScript, React, and
-          distributed systems.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.3,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          className="mt-8 flex gap-4"
+          className="mt-16 flex gap-6"
         >
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-foreground/10 active:scale-[0.98]"
+            className="group relative inline-flex items-center gap-2 text-xs uppercase tracking-widest text-foreground font-medium pb-1"
           >
-            Read the Blog
-            <motion.span
-              className="inline-block"
-              animate={{ x: [0, 4, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              &rarr;
-            </motion.span>
+            <span className="line-reveal pb-1">View Journal &rarr;</span>
           </Link>
           <Link
             href="/about"
-            className="inline-flex items-center rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground/70 transition-all hover:border-foreground/30 hover:text-foreground hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative inline-flex items-center gap-2 text-xs uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1"
           >
-            About Me
+            <span className="line-reveal pb-1">Index &rarr;</span>
           </Link>
         </motion.div>
       </section>
 
+      {/* Latest Posts Section (Cardless, Typography & Spacing Driven) */}
       <section>
         <Reveal delay={0.1}>
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Latest Posts
+          <div className="flex items-baseline justify-between border-b border-border/10 pb-6 mb-12">
+            <h2 className="text-xs uppercase tracking-widest text-foreground/40 font-medium">
+              Featured Logs
             </h2>
             <Link
               href="/blog"
-              className="line-reveal text-sm text-foreground/50 hover:text-foreground transition-colors pb-0.5"
+              className="line-reveal text-xs uppercase tracking-widest text-foreground/45 hover:text-foreground transition-colors pb-1"
             >
-              View all &rarr;
+              Archive &rarr;
             </Link>
           </div>
         </Reveal>
 
         {posts.length > 0 ? (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
             {posts.map((post, i) => (
-              <Reveal key={post.slug} delay={0.05 * (i + 1)}>
+              <Reveal key={post.slug} delay={0.08 * (i + 1)}>
                 <PostCard post={post} />
               </Reveal>
             ))}
           </div>
         ) : (
           <Reveal>
-            <p className="text-foreground/50">
-              No posts yet. Create your first post in{" "}
-              <code className="rounded bg-muted px-1.5 py-0.5 text-sm">
-                content/posts/
-              </code>
+            <p className="text-xs uppercase tracking-widest text-foreground/40 text-center py-12">
+              No entries logged.
             </p>
           </Reveal>
         )}

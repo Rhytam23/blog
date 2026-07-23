@@ -42,7 +42,7 @@ export function Callout({ type = "info", children }: CalloutProps) {
   return (
     <div
       className={cn(
-        "my-6 rounded-lg border p-4 text-sm",
+        "my-6 rounded-none border p-4 text-sm",
         config.className
       )}
     >

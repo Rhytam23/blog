@@ -5,48 +5,61 @@ import { Reveal, StaggerChildren, StaggerItem } from "@/components/animations/re
 
 const sections = [
   {
-    heading: "What I Do",
+    heading: "Process",
     content:
-      "I build web applications, APIs, and distributed systems. My primary stack is TypeScript, React, Next.js, and PostgreSQL. I care deeply about performance, accessibility, and developer experience.",
+      "I approach design and engineering with a focus on simplicity and structure. Every interface should feel lightweight, responsive, and tactile. Code should be readable, performant, and maintainable.",
   },
   {
-    heading: "About This Blog",
+    heading: "Current Practice",
     content:
-      "This blog is built with Next.js, MDX, and Tailwind CSS. It's designed to be fast, accessible, and easy to maintain. Posts are written in MDX and version-controlled alongside the codebase.",
+      "Currently focused on building real-time applications, profiling React components, and tuning database latency. Seeking out the limits of clean interfaces and smooth motion choreography.",
   },
   {
-    heading: "Get in Touch",
+    heading: "Connections",
     content:
-      "You can find me on GitHub. Feel free to reach out if you want to chat about tech, coding, or anything else.",
+      "You can find my open-source work on GitHub. Feel free to connect if you share an appreciation for clean typography, minimal layouts, and high-performance engineering.",
   },
 ];
 
 export function AboutContent() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
+    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+      {/* Editorial Header */}
       <Reveal>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-8">
+        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-12">
           About
         </h1>
       </Reveal>
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-lg text-foreground/60"
-        >
-          I&apos;m a software engineer who enjoys building things that live on
-          the internet. I write about technology, engineering practices, and the
-          tools I use daily.
-        </motion.p>
+      {/* Asymmetric Profile Intro */}
+      <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] items-start mb-20">
+        <Reveal>
+          <p className="text-xl sm:text-2xl font-light text-foreground/75 leading-relaxed font-sans">
+            I am a software engineer focused on building clean digital experiences. I write about architecture, interaction design, and the systems behind simple interfaces.
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="text-xs uppercase tracking-widest text-foreground/40 space-y-2">
+            <p>Based in India</p>
+            <p>Developer / Architect</p>
+            <p>Est. 2026</p>
+          </div>
+        </Reveal>
+      </div>
 
-        <StaggerChildren className="space-y-0">
+      {/* Clean borderless grid lists */}
+      <div className="border-t border-border/10 pt-16">
+        <StaggerChildren className="grid gap-10 md:grid-cols-2">
           {sections.map((section) => (
             <StaggerItem key={section.heading}>
-              <h2 className="text-xl font-semibold mt-10 mb-3">{section.heading}</h2>
-              <p>{section.content}</p>
+              <div className="space-y-3">
+                <h2 className="text-xs uppercase tracking-widest text-foreground/35 font-medium">
+                  {section.heading}
+                </h2>
+                <p className="text-sm text-foreground/50 leading-relaxed font-sans">
+                  {section.content}
+                </p>
+              </div>
             </StaggerItem>
           ))}
         </StaggerChildren>

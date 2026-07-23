@@ -4,31 +4,31 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --primary: #171717;
-  --primary-foreground: #ffffff;
-  --muted: #f5f5f5;
-  --muted-foreground: #737373;
-  --border: #e5e5e5;
-  --ring: #a3a3a3;
-  --accent: #f5f5f5;
-  --accent-foreground: #171717;
+  --background: #09090b; /* True neutral-black background */
+  --foreground: #f4f4f5; /* Off-white crisp text */
+  --primary: #f4f4f5;
+  --primary-foreground: #09090b;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --ring: #71717a;
+  --accent: #27272a;
+  --accent-foreground: #f4f4f5;
   --destructive: #ef4444;
-  --radius: 0.5rem;
+  --radius: 0rem; /* Handcrafted editorial look with zero radius (sharp corners) */
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --primary: #ededed;
-  --primary-foreground: #0a0a0a;
-  --muted: #1a1a1a;
-  --muted-foreground: #a3a3a3;
-  --border: #262626;
-  --ring: #525252;
-  --accent: #1a1a1a;
-  --accent-foreground: #ededed;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --primary: #f4f4f5;
+  --primary-foreground: #09090b;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --ring: #71717a;
+  --accent: #27272a;
+  --accent-foreground: #f4f4f5;
   --destructive: #dc2626;
 }
 
@@ -45,90 +45,63 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --radius: var(--radius);
-  --font-sans: var(--font-inter);
+  --radius-lg: var(--radius);
+  --radius-md: var(--radius);
+  --radius-sm: var(--radius);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --font-sans: var(--font-body), system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-heading), system-ui, -apple-system, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
 }
 
-/* Lenis handles smooth scrolling — native scroll-behavior conflicts with it
-   and causes double-easing on anchor jumps (TOC links, etc.). */
-html {
-  /* scroll-behavior: smooth; — intentionally removed, Lenis owns this */
+/* Custom premium headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
-/* Focus styles */
-*:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
+/* Tiling Film Noise Overlay (inspired by Lusion & Active Theory) */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* Prose overrides for dark mode */
-.dark .prose {
-  --tw-prose-body: var(--foreground);
-  --tw-prose-headings: var(--foreground);
-  --tw-prose-lead: var(--muted-foreground);
-  --tw-prose-links: var(--foreground);
-  --tw-prose-bold: var(--foreground);
-  --tw-prose-counters: var(--muted-foreground);
-  --tw-prose-bullets: var(--muted-foreground);
-  --tw-prose-hr: var(--border);
-  --tw-prose-quotes: var(--foreground);
-  --tw-prose-quote-borders: var(--border);
-  --tw-prose-captions: var(--muted-foreground);
-  --tw-prose-code: var(--foreground);
-  --tw-prose-pre-code: var(--foreground);
-  --tw-prose-pre-bg: #1a1a1a;
-  --tw-prose-th-borders: var(--border);
-  --tw-prose-td-borders: var(--border);
+/* Mask typography reveal animations */
+.mask-reveal {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
-/* Offset prose headings so TOC anchor links scroll below the sticky header
-   (h-16 = 4rem header + 0.5rem buffer = 4.5rem). */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-  scroll-margin-top: 4.5rem;
+.mask-reveal-inner {
+  display: inline-block;
+  transform: translateY(100%);
+  animation: maskRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Gradient radial utility */
-.bg-gradient-radial {
-  background: radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to));
+@keyframes maskRevealUp {
+  to {
+    transform: translateY(0);
+  }
 }
 
-/* Glow effect on hover */
-.glow-hover {
-  position: relative;
-}
-
-.glow-hover::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(255, 255, 255, 0.06),
-    transparent 40%
-  );
-}
-
-.glow-hover:hover::after {
-  opacity: 1;
-}
-
-/* Subtle line separator animation */
+/* Premium Lusion/Igloo-style line reveal underlinks */
 .line-reveal {
   position: relative;
-  overflow: hidden;
+  display: inline-block;
 }
 
 .line-reveal::after {
@@ -136,39 +109,62 @@ html {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 1px;
-  background: var(--foreground);
-  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .line-reveal:hover::after {
-  width: 100%;
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-/* Text shimmer for headings */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+/* Magnetic button alignment */
+.magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.text-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--foreground) 0%,
-    var(--foreground) 40%,
-    var(--muted-foreground) 50%,
-    var(--foreground) 60%,
-    var(--foreground) 100%
-  );
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 8s linear infinite;
+/* Global scroll margin offsets for sticky header */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  scroll-margin-top: 6rem;
 }
 
-/* Respect reduced motion */
+/* Custom premium reading typography scales */
+.prose {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+}
+
+.prose p {
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+}
+
+.prose blockquote {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.6;
+  border-left-width: 2px;
+  border-color: var(--foreground);
+  padding-left: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+/* Respect reduced motion globally */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -178,11 +174,12 @@ html {
     transition-duration: 0.01ms !important;
   }
 
-  .text-shimmer {
-    animation: none;
+  .mask-reveal-inner {
+    transform: none !important;
+    animation: none !important;
   }
 
-  .glow-hover::after {
+  .noise-overlay {
     display: none;
   }
 }

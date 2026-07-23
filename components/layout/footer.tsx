@@ -9,15 +9,15 @@ export function Footer() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="border-t border-border/40 py-10"
+      transition={{ duration: 0.8 }}
+      className="border-t border-border/10 py-12 mt-20"
     >
       <div className="mx-auto max-w-3xl px-4">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-foreground/40">
-            &copy; {new Date().getFullYear()} blog. All rights reserved.
+        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+          <p className="text-xs uppercase tracking-widest text-foreground/30">
+            &copy; {new Date().getFullYear()} journal. All rights reserved.
           </p>
-          <nav className="flex gap-5">
+          <nav className="flex gap-6">
             {[
               { href: "/rss.xml", label: "RSS" },
               { href: "/about", label: "About" },
@@ -29,7 +29,7 @@ export function Footer() {
                 {...(link.external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="line-reveal text-sm text-foreground/40 transition-colors hover:text-foreground pb-0.5"
+                className="line-reveal text-xs uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1"
               >
                 {link.label}
               </Link>

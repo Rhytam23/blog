@@ -25,9 +25,9 @@ function FloatingParticles({ count = 80 }: { count?: number }) {
           (rand() - 0.5) * 20,
           (rand() - 0.5) * 10,
         ] as [number, number, number],
-        speed: 0.1 + rand() * 0.3,
+        speed: 0.05 + rand() * 0.15, // Slower, more ambient floating speed
         offset: rand() * Math.PI * 2,
-        scale: 0.02 + rand() * 0.04,
+        scale: 0.01 + rand() * 0.03, // Smaller, more subtle particles
       });
     }
     return temp;
@@ -35,13 +35,18 @@ function FloatingParticles({ count = 80 }: { count?: number }) {
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, pointer }) => {
     const t = clock.getElapsedTime();
     particles.forEach((particle, i) => {
       const { position, speed, offset, scale } = particle;
+      
+      // Add very subtle mouse responsiveness to particles as well
+      const mouseInfluenceX = pointer.x * 0.2;
+      const mouseInfluenceY = pointer.y * 0.2;
+
       dummy.position.set(
-        position[0] + Math.sin(t * speed + offset) * 0.5,
-        position[1] + Math.cos(t * speed * 0.7 + offset) * 0.3,
+        position[0] + Math.sin(t * speed + offset) * 0.4 + mouseInfluenceX,
+        position[1] + Math.cos(t * speed * 0.7 + offset) * 0.2 + mouseInfluenceY,
         position[2]
       );
       dummy.scale.setScalar(scale * (0.8 + Math.sin(t * speed * 2 + offset) * 0.2));
@@ -53,11 +58,11 @@ function FloatingParticles({ count = 80 }: { count?: number }) {
 
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-      <circleGeometry args={[1, 16]} />
+      <circleGeometry args={[1, 8]} /> {/* Simpler geometries for performance */}
       <meshBasicMaterial
         transparent
-        opacity={0.15}
-        color="currentColor"
+        opacity={0.08} // Subtler particle contrast
+        color="#ffffff"
         depthWrite={false}
       />
     </instancedMesh>
@@ -70,16 +75,16 @@ function GradientOrbs() {
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     if (group.current) {
-      group.current.rotation.z = t * 0.02;
+      group.current.rotation.z = t * 0.005; // Much slower ambient rotation
     }
   });
 
   return (
     <group ref={group}>
       {[
-        { pos: [-3, 2, -5] as [number, number, number], color: "#6366f1", scale: 4, speed: 0.3 },
-        { pos: [4, -1, -6] as [number, number, number], color: "#8b5cf6", scale: 3.5, speed: 0.2 },
-        { pos: [-1, -3, -4] as [number, number, number], color: "#a855f7", scale: 3, speed: 0.25 },
+        { pos: [-3, 2, -5] as [number, number, number], color: "#6366f1", scale: 4.5, speed: 0.15 },
+        { pos: [4, -1, -6] as [number, number, number], color: "#8b5cf6", scale: 4.0, speed: 0.1 },
+        { pos: [-1, -3, -4] as [number, number, number], color: "#312e81", scale: 3.5, speed: 0.12 },
       ].map((orb, i) => (
         <FloatingOrb key={i} {...orb} />
       ))}
@@ -99,21 +104,30 @@ function FloatingOrb({
   speed: number;
 }) {
   const mesh = useRef<THREE.Mesh>(null!);
+  const currentX = useRef(pos[0]);
+  const currentY = useRef(pos[1]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, pointer }) => {
     const t = clock.getElapsedTime();
     if (mesh.current) {
-      mesh.current.position.x = pos[0] + Math.sin(t * speed) * 2;
-      mesh.current.position.y = pos[1] + Math.cos(t * speed * 0.7) * 1.5;
+      // Slow, laggy mouse follow effect (Lusion-style)
+      const targetX = pos[0] + Math.sin(t * speed) * 1.5 + pointer.x * 2.5;
+      const targetY = pos[1] + Math.cos(t * speed * 0.7) * 1.0 + pointer.y * 2.0;
+
+      currentX.current += (targetX - currentX.current) * 0.02; // Heavy damping
+      currentY.current += (targetY - currentY.current) * 0.02;
+
+      mesh.current.position.x = currentX.current;
+      mesh.current.position.y = currentY.current;
     }
   });
 
   return (
     <mesh ref={mesh} position={pos}>
-      <circleGeometry args={[scale, 64]} />
+      <circleGeometry args={[scale, 32]} />
       <meshBasicMaterial
         transparent
-        opacity={0.03}
+        opacity={0.03} // Extremely soft mesh background lighting
         color={color}
         depthWrite={false}
       />
@@ -139,14 +153,14 @@ export function WebGLBackground() {
   if (prefersReduced) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 opacity-40 dark:opacity-60">
+    <div className="pointer-events-none fixed inset-0 z-0 opacity-55 dark:opacity-75">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
         gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}
-        dpr={[1, 1.5]}
+        dpr={[1, 1.2]} // Low-power dpr for 60fps consistency
         style={{ background: "transparent" }}
       >
-        <FloatingParticles count={60} />
+        <FloatingParticles count={40} />
         <GradientOrbs />
       </Canvas>
     </div>
