@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Reveal, StaggerChildren, StaggerItem } from "@/components/animations/reveal";
 
 interface UseItem {
@@ -37,10 +36,10 @@ const uses: UseItem[] = [
 
 export function UsesContent() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+    <div className="mx-auto max-w-3xl px-4 py-24 sm:py-36">
       {/* Editorial Header */}
       <Reveal>
-        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-6">
+        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-6 liquid-hover inline-block">
           Uses
         </h1>
       </Reveal>
@@ -57,7 +56,7 @@ export function UsesContent() {
         {uses.map((section) => (
           <StaggerItem key={section.category}>
             <div className="border-t border-border/10 pt-8">
-              <h2 className="text-xs uppercase tracking-widest text-foreground/35 font-medium mb-8">
+              <h2 className="text-[10px] uppercase tracking-widest text-foreground/35 font-medium mb-8">
                 {section.category}
               </h2>
               
@@ -67,10 +66,10 @@ export function UsesContent() {
                     key={item.name}
                     className="flex flex-col sm:flex-row sm:items-baseline justify-between py-5 gap-2 group transition-colors duration-300"
                   >
-                    <span className="font-medium text-sm text-foreground/80 group-hover:text-foreground">
+                    <span className="font-medium text-sm text-foreground/80 group-hover:text-foreground liquid-hover inline-block">
                       {item.name}
                     </span>
-                    <span className="text-xs text-foreground/45 sm:text-right font-sans">
+                    <span className="text-xs text-foreground/45 sm:text-right font-sans font-light">
                       {item.description}
                     </span>
                   </div>

@@ -4,31 +4,31 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #09090b; /* True neutral-black background */
-  --foreground: #f4f4f5; /* Off-white crisp text */
-  --primary: #f4f4f5;
-  --primary-foreground: #09090b;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --ring: #71717a;
-  --accent: #27272a;
-  --accent-foreground: #f4f4f5;
+  --background: #060608; /* Extremely deep warm onyx */
+  --foreground: #f3f3f6; /* Crisp paper-chalk white */
+  --primary: #f3f3f6;
+  --primary-foreground: #060608;
+  --muted: #131316;
+  --muted-foreground: #8a8a93;
+  --border: #202024;
+  --ring: #52525b;
+  --accent: #1e1e22;
+  --accent-foreground: #f3f3f6;
   --destructive: #ef4444;
-  --radius: 0rem; /* Handcrafted editorial look with zero radius (sharp corners) */
+  --radius: 0rem;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #f4f4f5;
-  --primary: #f4f4f5;
-  --primary-foreground: #09090b;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --border: #27272a;
-  --ring: #71717a;
-  --accent: #27272a;
-  --accent-foreground: #f4f4f5;
+  --background: #060608;
+  --foreground: #f3f3f6;
+  --primary: #f3f3f6;
+  --primary-foreground: #060608;
+  --muted: #131316;
+  --muted-foreground: #8a8a93;
+  --border: #202024;
+  --ring: #52525b;
+  --accent: #1e1e22;
+  --accent-foreground: #f3f3f6;
   --destructive: #dc2626;
 }
 
@@ -53,6 +53,7 @@
   --radius-3xl: var(--radius);
   --font-sans: var(--font-body), system-ui, -apple-system, sans-serif;
   --font-heading: var(--font-heading), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
 }
 
 body {
@@ -69,14 +70,20 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.03em;
 }
 
-/* Tiling Film Noise Overlay (inspired by Lusion & Active Theory) */
+/* Tiling Film Noise Overlay (tactile aesthetic) */
 .noise-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Signature displacement target class */
+.liquid-hover {
+  filter: url(#liquid-warp);
+  will-change: filter;
 }
 
 /* Mask typography reveal animations */
@@ -89,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 .mask-reveal-inner {
   display: inline-block;
   transform: translateY(100%);
-  animation: maskRevealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: maskRevealUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes maskRevealUp {
@@ -114,7 +121,7 @@ h1, h2, h3, h4, h5, h6 {
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .line-reveal:hover::after {
@@ -144,24 +151,28 @@ h1, h2, h3, h4, h5, h6 {
 /* Custom premium reading typography scales */
 .prose {
   font-size: 1.05rem;
-  line-height: 1.75;
-  letter-spacing: -0.01em;
+  line-height: 1.8;
+  letter-spacing: -0.015em;
 }
 
 .prose p {
   margin-top: 1.6em;
   margin-bottom: 1.6em;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  color: var(--foreground);
 }
 
 .prose blockquote {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.5;
   border-left-width: 2px;
   border-color: var(--foreground);
   padding-left: 1.5rem;
-  margin: 2.5rem 0;
+  margin: 3rem 0;
+  color: var(--foreground);
 }
 
 /* Respect reduced motion globally */
@@ -181,5 +192,9 @@ h1, h2, h3, h4, h5, h6 {
 
   .noise-overlay {
     display: none;
+  }
+  
+  .liquid-hover {
+    filter: none !important;
   }
 }

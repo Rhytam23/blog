@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Inter, Instrument_Sans } from "next/font/google";
+import { Inter, Instrument_Sans, Newsreader } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -8,6 +8,7 @@ import { PageTransition } from "@/components/page-transition";
 import { ScrollProgress } from "@/components/animations/scroll-progress";
 import { CursorGlow } from "@/components/cursor-glow";
 import { WebGLBackgroundWrapper } from "@/components/webgl-background-wrapper";
+import { LiquidFilter } from "@/components/animations/liquid-filter";
 import "./globals.css";
 
 const sans = Inter({
@@ -20,6 +21,13 @@ const heading = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-heading",
+});
+
+const serif = Newsreader({
+  subsets: ["latin"],
+  display: "swap",
+  style: "italic",
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
@@ -55,10 +63,11 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${sans.variable} ${heading.variable}`}
+      className={`${sans.variable} ${heading.variable} ${serif.variable}`}
     >
       <body className="min-h-screen bg-background font-sans antialiased">
         <div className="noise-overlay" />
+        <LiquidFilter />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

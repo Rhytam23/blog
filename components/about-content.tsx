@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Reveal, StaggerChildren, StaggerItem } from "@/components/animations/reveal";
 
 const sections = [
@@ -23,40 +22,57 @@ const sections = [
 
 export function AboutContent() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+    <div className="mx-auto max-w-3xl px-4 py-24 sm:py-36">
       {/* Editorial Header */}
       <Reveal>
-        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-12">
-          About
+        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-16 liquid-hover inline-block">
+          Biography
         </h1>
       </Reveal>
 
-      {/* Asymmetric Profile Intro */}
-      <div className="grid gap-12 md:grid-cols-[1.5fr_1fr] items-start mb-20">
-        <Reveal>
-          <p className="text-xl sm:text-2xl font-light text-foreground/75 leading-relaxed font-sans">
-            I am a software engineer focused on building clean digital experiences. I write about architecture, interaction design, and the systems behind simple interfaces.
-          </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="text-xs uppercase tracking-widest text-foreground/40 space-y-2">
-            <p>Based in India</p>
-            <p>Developer / Architect</p>
-            <p>Est. 2026</p>
+      {/* Asymmetric Split Layout */}
+      <div className="grid gap-12 md:grid-cols-[1.8fr_1fr] items-start mb-24">
+        <div className="space-y-8">
+          <Reveal>
+            <p className="font-serif text-3xl sm:text-4xl font-light text-foreground/75 leading-normal italic">
+              &ldquo;Simple structures require complex engineering.&rdquo;
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="text-sm text-foreground/50 leading-relaxed font-sans font-light">
+              I spend my time designing minimalist user interfaces, developing high-performance TypeScript applications, and exploring the limitations of modern React and WebGL frameworks. This blog serves as a logbook for architectural decisions and code experiments.
+            </p>
+          </Reveal>
+        </div>
+        
+        <Reveal delay={0.2}>
+          <div className="space-y-6 md:justify-self-end text-left md:text-right border-l md:border-l-0 md:border-r border-border/10 pl-6 md:pl-0 md:pr-6 py-2">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-foreground/30 font-medium">Location</p>
+              <p className="text-xs text-foreground/60 mt-1">India / Remote</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-foreground/30 font-medium">Focus</p>
+              <p className="text-xs text-foreground/60 mt-1">Systems / Animation / DX</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-foreground/30 font-medium">Timezone</p>
+              <p className="text-xs text-foreground/60 mt-1">GMT +5:30</p>
+            </div>
           </div>
         </Reveal>
       </div>
 
-      {/* Clean borderless grid lists */}
+      {/* Clean list sections */}
       <div className="border-t border-border/10 pt-16">
-        <StaggerChildren className="grid gap-10 md:grid-cols-2">
+        <StaggerChildren className="grid gap-12 md:grid-cols-2">
           {sections.map((section) => (
             <StaggerItem key={section.heading}>
               <div className="space-y-3">
-                <h2 className="text-xs uppercase tracking-widest text-foreground/35 font-medium">
+                <h2 className="text-[10px] uppercase tracking-widest text-foreground/35 font-medium">
                   {section.heading}
                 </h2>
-                <p className="text-sm text-foreground/50 leading-relaxed font-sans">
+                <p className="text-xs text-foreground/50 leading-relaxed font-sans font-light">
                   {section.content}
                 </p>
               </div>

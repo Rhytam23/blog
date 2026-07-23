@@ -50,7 +50,7 @@ export function PostHeader({ post }: PostHeaderProps) {
       {/* Massive Typographic Headline */}
       <motion.h1
         variants={item}
-        className="font-heading text-4xl sm:text-6xl font-medium tracking-tighter leading-[1.05] uppercase mb-6"
+        className="font-heading text-4xl sm:text-6xl font-medium tracking-tighter leading-[1.05] uppercase mb-6 liquid-hover inline-block"
       >
         {post.title}
       </motion.h1>

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Reveal, StaggerChildren, StaggerItem } from "@/components/animations/reveal";
 
 interface Project {
@@ -36,10 +35,10 @@ const projects: Project[] = [
 
 export function ProjectsContent() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-20 sm:py-32">
+    <div className="mx-auto max-w-3xl px-4 py-24 sm:py-36">
       {/* Editorial Header */}
       <Reveal>
-        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-16">
+        <h1 className="font-heading text-5xl sm:text-6xl font-medium tracking-tighter uppercase mb-16 liquid-hover inline-block">
           Projects
         </h1>
       </Reveal>
@@ -48,25 +47,25 @@ export function ProjectsContent() {
       <StaggerChildren className="flex flex-col">
         {projects.map((project) => (
           <StaggerItem key={project.title}>
-            <div className="border-b border-border/10 py-10 sm:py-12 group">
+            <div className="border-b border-border/10 py-12 group">
               <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-6">
                 
                 {/* Asymmetric Typography Info */}
-                <div className="flex-1 space-y-3">
-                  <h2 className="font-heading text-2xl sm:text-3xl font-medium tracking-tight leading-none transition-colors duration-300 group-hover:text-foreground/80">
+                <div className="flex-1 space-y-3.5">
+                  <h2 className="font-heading text-3xl font-medium tracking-tight leading-none transition-colors duration-300 group-hover:text-foreground/80 liquid-hover inline-block">
                     {project.title}
                   </h2>
-                  <p className="text-sm text-foreground/50 leading-relaxed font-sans max-w-xl">
+                  <p className="text-sm text-foreground/50 leading-relaxed font-sans font-light max-w-xl">
                     {project.description}
                   </p>
                 </div>
 
                 {/* Tech tags column (Igloo style) */}
-                <div className="flex flex-wrap gap-1.5 md:max-w-xs shrink-0 self-start md:self-auto">
+                <div className="flex flex-wrap gap-1.5 md:max-w-xs shrink-0 self-start md:self-auto select-none">
                   {project.tech.map((t) => (
                     <span
                       key={t}
-                      className="text-[9px] uppercase tracking-widest text-foreground/30 border border-border/10 px-2 py-0.5"
+                      className="text-[9px] uppercase tracking-widest text-foreground/30 border border-border/10 px-2.5 py-0.5"
                     >
                       {t}
                     </span>
@@ -81,7 +80,7 @@ export function ProjectsContent() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="line-reveal text-xs uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1"
+                    className="line-reveal text-[10px] uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1 font-medium"
                   >
                     Source &rarr;
                   </a>
@@ -91,7 +90,7 @@ export function ProjectsContent() {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="line-reveal text-xs uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1"
+                    className="line-reveal text-[10px] uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground pb-1 font-medium"
                   >
                     Live &rarr;
                   </a>
